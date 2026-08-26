@@ -1,12 +1,12 @@
 ---
-title: Stellar Intents Gateway
+title: Zephyroute
 created: 2026-08-25
 updated: 2026-08-25
 status: draft
 ---
 
-# PRD: Stellar Intents Gateway
-*Working title — confirm.*
+# PRD: Zephyroute
+*Product name confirmed 2026-08-25 (domains `zephyroute.com` and `zephyroute.app` verified available via RDAP). Internally referred to as "Stellar Intents Gateway" in prior research artifacts — same product, this is the public-facing name.*
 
 ## 0. Document Purpose
 
