@@ -314,6 +314,7 @@ v1's revenue model is NEAR Intents' native, anonymous **integrator fee**, attach
 | 1Click ToS KYC/AML obligation on the "Developer" creates legal exposure if unaddressed | Legal review completed before any SCF submission claims the flow is "KYC-free" (Open Question 5) — this is a hard gate on go-to-market claims, not just documentation hygiene. |
 | Solver takes origin funds but fails to settle at destination (structural risk of the intents model) | Mitigated structurally by NEAR's Verifier contract and the confirmed-live refund mechanism (`refundTo`/`refundType`/`refundFee` present on every real quote); this residual risk is inherited and disclosed, not eliminable by the gateway. |
 | DeFindex's deployed mainnet WASM doesn't match the audited/patched commits | Verify bytecode hash against the OtterSec-confirmed patch commits before/at launch (Open Question 4) — cheap, non-blocking, but must happen before any "audited" claim is made publicly. |
+| Zephyroute has no Soroban contract, issuing account, or app-operated wallet of its own to register as an "on-chain footprint" at SCF award time — the mechanism the Integration Track uses to attribute tranche #3 activity assumes a footprint that a zero-custody, zero-proprietary-contract architecture doesn't naturally produce | The address-correlation layer already identified in `architecture.md`'s Integration Coupling Map is the closest candidate footprint (the integrator-ID-tagged Stellar addresses 1Click settles to); confirm directly with the SCF panel whether this is an acceptable substitute before final submission (Open Question 11). |
 
 ## 14. Open Questions
 
@@ -326,6 +327,8 @@ v1's revenue model is NEAR Intents' native, anonymous **integrator fee**, attach
 7. Is THORWallet's routing already able to add Stellar as a destination, and are they open to embedding this gateway (FR-12) as a corridor?
 8. What exact on-chain metric (NAV target vs. cumulative volume, over what window) will the SCF panel ratify for tranche #3 release? Directly shapes SM-1/SM-2 targets.
 9. What is the gateway's actual integrator fee rate once registered with NEAR Intents, and how does it move the Phase 2 economics-table break-even points?
+10. What threat model and monitoring plan will accompany the tranche #2 submission? The SCF Build panel requires both as a tranche #2 condition (verified live against the SCF Handbook), and neither has been drafted yet — the failure-mode table in `addendum.md` §C is the raw material but isn't yet reframed as a threat model.
+11. What on-chain footprint will Zephyroute register at SCF award time given it holds no Soroban contract, issuing account, or app-operated wallet of its own? Is the integrator-ID-tagged address correlation layer (Integration Coupling Map, `architecture.md`) an acceptable substitute in the panel's eyes? Directly affects whether SM-1/SM-2 are attributable the way the Integration Track's tranche #3 mechanic expects.
 
 ## 15. Assumptions Index
 

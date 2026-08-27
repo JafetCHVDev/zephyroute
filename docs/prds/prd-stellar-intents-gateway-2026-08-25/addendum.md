@@ -162,3 +162,27 @@ A third party (router/relayer/backend) can invoke the function — the tx invoke
 | #8 | Mainnet Day-One Test | YES |
 | #9 | Minimal proprietary code | PASS — thin frontend + possible serverless function; zero contracts, zero custody backend |
 | #10 | Distribution + traction, not technical complexity | Philosophical guide, reflected in this PRD's §5.5/§12/§13 emphasis on distribution over engineering |
+
+## §J. find-stellar-idea Evidence Validation (2026-08-26)
+
+*Run retroactively against the already-drafted Zephyroute concept, using the same offline datasets `find-stellar-idea` draws on (`~/.claude/skills/data/lumenloop/projects.json` — 728 projects, `lumenloop/scf/rounds.json`, and the a16z/YC/Alliance thesis files) rather than a live web pass. Not a re-ideation — no alternative ideas were generated or proposed; this is a grounding check on the existing concept.*
+
+**Ecosystem gap evidence (LumenLoop catalog, 728 projects):**
+- `"near intents"` and `"1click"` — **0 matches**. No project in the catalog is built on this specific rail.
+- `"intent"` as a search term across the whole catalog — **1 match** (Rozo, an intent-based *payments* network on Circle CCTP, not NEAR Intents; already correctly distinguished in addendum §A). Confirms nobody else on Stellar is doing intent-based settlement, let alone landing it in a yield vault.
+- `"defindex"` — 3 matches (DeFindex itself, Nectar Network, Soroswap) — confirms DeFindex's ecosystem presence as a real, citable integration, not an obscure choice.
+- `"hot bridge"` — 1 match (HOT Protocol, the underlying chain-signature/MPC tech) — confirms the rail itself has ecosystem visibility even though no Stellar product yet composes it with a yield destination.
+- **Net read:** the offline catalog independently confirms addendum §A's core claim — nobody has fused NEAR Intents-style cross-chain settlement with a DeFindex yield deposit as one flow.
+
+**SCF funding-pattern evidence (`scf/rounds.json`):**
+- DeFindex, Rozo, BIM Exchange, and Allbridge — the closest comparables — all landed in the **"Financial Protocols"** category.
+- Across 134 Financial Protocols awards in the dataset: **median $149,820, mean $171,889, range $2,500–$572,162.** This independently corroborates the PRD §2 claim of a $50k–$250k precedent band for this product shape — Zephyroute's likely award size sits well inside a well-precedented range, not a speculative outlier.
+- **Discrepancy to reconcile before any SCF submission cites these figures:** this offline dataset shows Rozo's total as $150,000 (one round) and does not contain WOWMAX at all, whereas addendum §A (sourced via live research/MCP) cites Rozo at $248,000 and WOWMAX at $98,560. Likely explanation is dataset lag or a multi-tranche total not captured in this snapshot, not a fabricated figure in either source — but exact competitor award totals should be re-verified live immediately before they're used in a public SCF submission, not carried forward from either source unchecked.
+
+**Broader thesis fit:**
+- a16z's *Big Ideas 2025* includes a directly on-point item — *"Crypto companies will begin with the end (-user experience), instead of letting the infrastructure determine the UX"* — arguing the industry should "abstract away [wallet providers, intent architectures, etc.] into a holistic, full-stack, plug-and-play approach" enabled by "chain abstraction." Zephyroute is close to a literal instance of this thesis: the entire product is Stellar's account model and Soroban's auth mechanics disappearing behind a two-signature UX.
+- a16z's *State of Crypto 2025* and Alliance DAO's idea list both reference intent-based architecture as a live investor thesis, not a fringe pattern — this is broader-market corroboration on top of the Stellar-specific gap evidence, satisfying `find-stellar-idea`'s "broader thesis fit" criterion.
+
+**SCF fit assessment (per `find-stellar-idea`'s framing):** **Likely yes** — direct category precedent (4 comparable Financial Protocols awards), a confirmed, uncontested ecosystem gap, and an Integration Track mechanic (§A.3) this project is already structured around.
+
+**Why it might still fail (single biggest risk, per the skill's own required output):** distribution, not technology — per PRD §5.5/§12, the THORWallet embed partnership (Open Question 7) is unconfirmed, and without a distribution channel beyond the standalone app, real (non-wash) volume for the tranche #3 metric is the harder problem, not the integration itself.
