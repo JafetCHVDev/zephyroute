@@ -1,5 +1,5 @@
 ---
-stepsCompleted: [1, 2]
+stepsCompleted: [1, 2, 3]
 inputDocuments:
   - docs/prds/prd-stellar-intents-gateway-2026-08-25/prd.md
   - docs/prds/prd-stellar-intents-gateway-2026-08-25/addendum.md
@@ -49,3 +49,38 @@ Two sub-profiles need materially different UX depth within the same flow:
 - Surfacing the quote (fee, ETA, slippage) **verbatim, never editorialized** is already a functional requirement (FR-1) — this can double as a genuine trust differentiator against competitors that abstract these numbers away.
 - Framing flow status as a narrative (quoted → submitted → settled → depositing → earning) turns a multi-minute technical wait into a guided journey instead of a black box — a direct differentiator against swap-only aggregators like WOWMAX that stop at the bridge step.
 - The moment the dfToken balance updates is the product's real emotional payoff ("you're now earning yield on Stellar") — worth designing as its own confirming beat, not just another line of data on screen.
+
+## Core User Experience
+
+### Defining Experience
+
+The single most important interaction isn't only the second signature (the deposit), though that one stays the most technically fragile because of the ~1-5 minute Soroban authorization window. The first signature (confirming the swap) is just as critical from a trust standpoint: it's the moment the user releases funds into a cross-chain flow that hasn't proven anything to them yet. If we nail one interaction, it's the full chain from "confirm swap" to "see funds arrive" to "deposit signed": each link needs its own level of confidence, not just the last one.
+
+### Platform Strategy
+
+Web, multi-container: standalone app plus an embedded widget inside partner apps (THORWallet, mobile and web). No native app (explicit non-goal, §6). No offline functionality needed, since every step depends on live chain state. Device capability to leverage: browser wallet-extension detection/connection on desktop (Freighter via Stellar Wallets Kit) and embedded-wallet flows on mobile, inside the partner's app.
+
+### Effortless Interactions
+
+- Reconnecting after closing the browser (UJ-3) should feel like nothing happened: same address, resumes exactly where it left off.
+- The transition from "settlement detected" to "deposit ready to sign" happens automatically (Horizon polling): the unsigned XDR simply appears.
+- For the returning user (UJ-1): quote, sign, sign should feel fast, with no extra exposition. The literal "two taps" framing is dropped here; the goal is to feel like two steps, not to literally be two steps.
+- Trustline validation (FR-3) is the real fork point between the returning-user path (UJ-1) and the new-user path (UJ-2), and should be designed as a visible, explicit moment, not an invisible check that happens before the quote screen appears. A new user needs to see why they're being routed differently, not just end up on a different path.
+- Eliminates the manual hunt for a yield destination that aggregators like WOWMAX leave the user to do.
+
+### Critical Success Moments
+
+- Confidence in the first signature. The moment a user confirms the swap needs its own clear success signal (not just a spinner): it's the first real vote of confidence they give the product.
+- The settlement wait as its own moment, not only a technical challenge. For a first-time user (UJ-2), the 40 seconds to 14 minutes between confirming and seeing funds arrive is the highest-anxiety point in the whole flow, higher than the Soroban signing window, because it's the first time they're watching something cross-chain actually work. It needs active reassurance (live status, not a generic progress bar), handled separately from the "variable settlement wait" design challenge already listed above.
+- "This is better": watching the deposit XDR appear automatically the instant funds land.
+- Feels successful: the dfToken balance updates and is reflected as "earning."
+- The interaction that would ruin it if it fails: the signature window expiring as a dead-end error instead of a graceful rebuild.
+- First-time success: UJ-2 completes the whole loop without ever needing to understand what a trustline is.
+
+### Experience Principles
+
+1. Never let a technical constraint look like a product failure.
+2. Show, don't abstract.
+3. One flow, two depths, with the fork (trustline) designed explicitly, not hidden.
+4. State lives on-chain, not in a session.
+5. Container fidelity: inside a partner's widget (THORWallet), the experience should feel native to that app, not like an iframe bolted on top; the partner's brand and visual rhythm take priority over Zephyroute's own identity in that context.
