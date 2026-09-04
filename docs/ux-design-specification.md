@@ -1,5 +1,5 @@
 ---
-stepsCompleted: [1, 2, 3]
+stepsCompleted: [1, 2, 3, 4]
 inputDocuments:
   - docs/prds/prd-stellar-intents-gateway-2026-08-25/prd.md
   - docs/prds/prd-stellar-intents-gateway-2026-08-25/addendum.md
@@ -84,3 +84,46 @@ Web, multi-container: standalone app plus an embedded widget inside partner apps
 3. One flow, two depths, with the fork (trustline) designed explicitly, not hidden.
 4. State lives on-chain, not in a session.
 5. Container fidelity: inside a partner's widget (THORWallet), the experience should feel native to that app, not like an iframe bolted on top; the partner's brand and visual rhythm take priority over Zephyroute's own identity in that context.
+
+## Desired Emotional Response
+
+### Primary Emotional Goals
+
+Trust and Control, held jointly and continuously, not as isolated peak moments but as a state sustained from the first quote to the final confirmed position. Trust is the dominant goal: every interaction must reinforce that the user's funds were never actually at risk. Control, here, means control over understanding, not control over outcome, since the user has zero ability to accelerate or intervene during the two unavoidable waits (settlement, signature window). What actually replaces anxiety in those waits is visibility: knowing exactly where you are in the process, even without the power to move it faster.
+
+### Emotional Journey Mapping
+
+- First quote: informed confidence, built on seeing real numbers (fee, ETA, refund terms) verbatim, not a marketing-smoothed estimate.
+- First signature (swap confirm): trust anchored by a visible safety net (the refund mechanism surfaced before signing), not blind faith in the product's word.
+- Settlement wait (40s-14min): visibility replacing anxiety, an active, honest progress state tied to real on-chain status, never a passive spinner standing in for "trust us, it's working."
+- Deposit signature window: urgency without panic, a visible countdown paired with the explicit knowledge that a missed window rebuilds gracefully rather than losing anything.
+- Completion (dfToken earning): calm assurance rather than a showy payoff, reinforcing that trust is an ongoing state, not a one-time reward for finishing.
+- Failure states (route down, window expired): trust preserved through transparency, the system visibly disclosing what happened and what happens next, never going silent or opaque.
+- Return visits (UJ-1, UJ-3): continuity of trust, reconnecting instantly confirms "nothing was ever at risk while you were away."
+
+### Micro-Emotions
+
+- Primary pair: Trust vs. Skepticism, the dominant emotional axis for the entire product.
+- Secondary pair: Control (over understanding) vs. feeling "in the dark," most acute during the two cross-chain/cross-layer waits.
+- Deliberately de-prioritized as a general tone: high-arousal delight or excitement. This is financial infrastructure moving real capital, not a consumer entertainment product; confidence outranks dazzle everywhere except the one deliberate delight moment defined below.
+
+### Design Implications
+
+- Trust to UX approach: surface real data verbatim at every step (fee, ETA, refund terms, transaction status), never abstracted, rounded, or editorialized.
+- Control to UX approach: replace every wait with a visible, honest progress state tied to real on-chain status (Horizon polling), never a generic spinner.
+- Novice-proof trust: verbatim technical data (fee, ETA, slippageTolerance, refund terms) stays always available per FR-1, but the primary surface leads with plain-language translation for a first-time user like Marcus; the raw data is one tap away, never the only presentation.
+- Evidence-backed reassurance, not evidence instead of reassurance: for a first-time user like Marcus, raw evidence (an XDR, a refund field, a correlation hash) isn't legible on its own, showing it alone doesn't actually reassure, it's just more unfamiliar text. Plain-language copy that interprets the evidence ("your funds go straight to your own wallet, we never hold them") does more real trust-building for a novice than the evidence by itself; the raw data still sits one tap away for anyone who wants to verify it directly.
+- Fast path preserved for returning users: the plain-language and expectation-setting scaffolding designed for a first-time user must never cost a returning user like Priya extra taps or slow the "quote, sign, sign" fast path already defined in Core User Experience; expectation cues stay as a persistent, glanceable element, never a blocking step a repeat user has to dismiss.
+- One deliberate delight moment, not a general tone: the automatic appearance of the deposit XDR the instant funds land (already flagged in Core User Experience as the "this is better" competitive differentiator) is allowed to feel like a small delight, precisely because it's earned and specific. Everywhere else, calm and evidence-based reassurance stays the default, so that one moment keeps its impact instead of blending into a uniformly "exciting" product.
+- Set expectations before commit, not just reassure during the wait: the quote screen must show the specific expected duration range for the exact route chosen (e.g., ~40s for Arbitrum vs. ~14 min for Bitcoin) before the user signs, not a generic "cross-chain settlement in progress" framing borrowed from the faster routes. Trust breaks when reality violates an expectation the product itself never set.
+- Avoid any interaction that asks the user to "just trust us" without visible, checkable evidence.
+- Avoid silent failures or dead-end errors, always show what is happening and what happens next.
+
+### Emotional Design Principles
+
+1. Trust is continuous, not a peak moment, it must hold from the first quote to the last balance check, not spike once and fade.
+2. Control replaces anxiety during every wait through visibility, no wait is silent, every wait shows real, verifiable progress, even when the user cannot change the outcome.
+3. Evidence-backed reassurance, not empty reassurance. Trust is earned by pairing plain-language interpretation with the real evidence behind it, never bare technical data dropped on an unprepared user, and never comforting copy with nothing real behind it.
+4. Calm over celebration, success moments confirm competence and safety, not hype, with one deliberate exception at the automatic deposit-XDR moment.
+5. Failure preserves trust, a degraded route or expired window is disclosed immediately and handled gracefully, never hidden or dead-ended.
+6. Visibility depends on monitoring, not just UI. The calm, evidence-based progress state this section promises is only true if the system actively detects upstream degradation in real time (per the "Upstream availability transparency" NFR). This is a prerequisite of the trust goals in this section, not a nice-to-have, and it is directly gated on resolving PRD Open Question 10 (threat model / monitoring plan) before launch.
