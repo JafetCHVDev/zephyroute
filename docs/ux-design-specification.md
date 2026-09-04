@@ -1,5 +1,5 @@
 ---
-stepsCompleted: [1, 2, 3, 4]
+stepsCompleted: [1, 2, 3, 4, 5]
 inputDocuments:
   - docs/prds/prd-stellar-intents-gateway-2026-08-25/prd.md
   - docs/prds/prd-stellar-intents-gateway-2026-08-25/addendum.md
@@ -127,3 +127,60 @@ Trust and Control, held jointly and continuously, not as isolated peak moments b
 4. Calm over celebration, success moments confirm competence and safety, not hype, with one deliberate exception at the automatic deposit-XDR moment.
 5. Failure preserves trust, a degraded route or expired window is disclosed immediately and handled gracefully, never hidden or dead-ended.
 6. Visibility depends on monitoring, not just UI. The calm, evidence-based progress state this section promises is only true if the system actively detects upstream degradation in real time (per the "Upstream availability transparency" NFR). This is a prerequisite of the trust goals in this section, not a nice-to-have, and it is directly gated on resolving PRD Open Question 10 (threat model / monitoring plan) before launch.
+
+## UX Pattern Analysis & Inspiration
+
+### Inspiring Products Analysis
+
+#### XOXNO (xoxno.com, Stellar lending protocol)
+
+- Core problem solved elegantly: makes a genuinely complex, technical DeFi mechanism (money market lending on Soroban) feel legible on first load, no crypto-native fluency required. The homepage answers "what is this," "is it safe," and "what's the real state of the protocol" within the first screen.
+- Trust-building without jargon: leads immediately with a pill badge, "Non-custodial lending protocol," before any other copy, then backs every trust claim with a one-sentence mechanism, not just an adjective (not just "Audited," but "Every contract that touches funds goes through independent security review").
+- Real-time, precise data as its own trust device: exact decimal balances ("10,000.00000000 USDC"), live aggregate stats ($1.59M supplied, 908 lenders), and a pulsing "LIVE" badge on the markets table, nothing paraphrased, nothing rounded for presentation.
+- Visualizing custody, not just claiming it: a "How capital moves" section renders the fund flow as a 3-node diagram (You, the pool, borrowers, with "interest flows back to you"), turning an abstract non-custodial claim into something the eye can verify at a glance.
+- Progressive disclosure for onboarding: a bottom FAQ accordion ("Stellar lending, explained") answers baseline questions without forcing that explanation onto users who already know the answer.
+- Visual system: near-black background, a single high-contrast neon green accent, oversized condensed display type for headlines, with an italic treatment reserved specifically for the words carrying the trust or differentiation claim (e.g. "on Stellar.", "Audited."), a recurring visual signal for "this is the claim that matters."
+
+### Transferable UX Patterns
+
+**Trust Patterns:**
+- Mechanism-backed trust badges: pair every trust claim (non-custodial, audited) with a one-sentence explanation of the real mechanism behind it, directly extending the "evidence-backed reassurance" principle already committed to in Desired Emotional Response.
+- A literal fund-flow diagram: Zephyroute's own flow (user, solver, user's Stellar account, DeFindex vault) is a strong candidate for the same node-based visual treatment, since the non-custodial invariant is the single most important claim to make legible fast for a first-timer like Marcus.
+
+**Data Presentation Patterns:**
+- Verbatim precision as a trust signal: XOXNO showing unrounded, exact live figures validates, not just inspires, Zephyroute's own FR-1 requirement to show quote data verbatim, never paraphrased.
+- A persistent "LIVE" indicator on real-time data: worth adopting for Zephyroute's settlement-status view (quoted, submitted, settled, depositing, earning), reinforcing that what the user sees is live, not cached.
+
+**Onboarding Patterns:**
+- FAQ accordion for the curious, invisible to the confident: fits directly into the "novice-proof trust" design implication already written for Marcus, without slowing Priya's fast path.
+
+**Visual Patterns:**
+- One consistent accent color and one accent typographic treatment reserved only for the words that carry the trust or differentiation claim, so the accent stays meaningful instead of decorative.
+
+**Wait-State Patterns (genre mashup: XOXNO trust language + cross-border transfer tracking):**
+- A visible, bounded step tracker for the whole flow (quoted, submitted, settled, depositing, earning), each step timestamped the instant it completes, mirroring how cross-border transfer products build a visible audit trail rather than a single ambiguous "processing" state. This pairs XOXNO's verbatim, verifiable trust language with a genre built specifically to keep users calm through waits XOXNO itself never has to solve.
+- Proactive delay disclosure: if real elapsed time approaches or exceeds the route-specific ETA already set at quote time, the system surfaces "this is taking a little longer than usual" automatically, before the user has to wonder or refresh, borrowed directly from how transfer-tracking products handle a slow transfer instead of leaving silence.
+
+### Anti-Patterns to Avoid
+
+- XOXNO's homepage doesn't demonstrate any real waiting or loading state, its supply and withdraw actions are near-instant, single-chain Soroban calls. This is a genuine gap, not something to borrow: Zephyroute's hardest UX problem (the 40s-14min cross-chain settlement wait, the ~1-5min signature window) has no direct precedent on XOXNO's own site. Import their trust and data patterns, but design the settlement-wait UX fresh from Zephyroute's own Desired Emotional Response section, informed here by the cross-border transfer-tracking genre.
+- Over-dense stat walls: XOXNO's markets table (6 assets, 3 columns, all visible on load) fits a lending market with many assets, but Zephyroute's flow is much narrower (2-3 origin assets, 1-2 destination vaults). Copying a dense table verbatim would overstate complexity that doesn't exist in Zephyroute's actual scope.
+
+### Design Inspiration Strategy
+
+**What to Adopt:**
+- Mechanism-backed trust badges, directly extending the Desired Emotional Response section's "evidence-backed reassurance" principle.
+- A literal fund-flow diagram visualizing custody, making Zephyroute's non-custodial invariant legible at a glance for a first-timer.
+- Verbatim, unrounded live data, already required by FR-1, confirmed here as good UX, not just correct engineering.
+- An FAQ accordion for onboarding depth, serving Marcus without slowing Priya, consistent with "one flow, two depths."
+- A timestamped step tracker for the settlement and deposit flow, filling the exact wait-state gap XOXNO's own site doesn't need to solve, borrowed from the cross-border transfer-tracking genre rather than invented from scratch.
+
+**What to Adapt:**
+- The visual system (dark background, single neon accent, condensed display type, italic accent for trust words): adopt the underlying idea, one consistent, meaningful accent reserved for what matters, rather than copying XOXNO's specific palette; Zephyroute's actual color and typography choices come later in the Visual Foundation step.
+- The "LIVE" badge pattern: adapt to Zephyroute's actual live states (quoted, submitted, settled, depositing, earning), which are richer and slower than XOXNO's near-instant lending actions.
+
+**What to Avoid:**
+- Copying XOXNO's dense multi-asset markets table wholesale, Zephyroute's real scope doesn't need that density.
+- Assuming XOXNO solved the waiting-state problem, it didn't need to; Zephyroute's settlement wait and signature window remain problems to design fresh.
+
+This strategy will guide our design decisions while keeping Zephyroute unique.
