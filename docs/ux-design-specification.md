@@ -1,5 +1,5 @@
 ---
-stepsCompleted: [1, 2, 3, 4, 5]
+stepsCompleted: [1, 2, 3, 4, 5, 6]
 inputDocuments:
   - docs/prds/prd-stellar-intents-gateway-2026-08-25/prd.md
   - docs/prds/prd-stellar-intents-gateway-2026-08-25/addendum.md
@@ -184,3 +184,28 @@ Trust and Control, held jointly and continuously, not as isolated peak moments b
 - Assuming XOXNO solved the waiting-state problem, it didn't need to; Zephyroute's settlement wait and signature window remain problems to design fresh.
 
 This strategy will guide our design decisions while keeping Zephyroute unique.
+
+## Design System Foundation
+
+### 1.1 Design System Choice
+
+Custom Design System. Zephyroute builds its own component library and visual language from scratch, not layered on top of an existing established or themeable off-the-shelf system.
+
+### Rationale for Selection
+
+- Explicit choice to prioritize full visual ownership of Zephyroute's identity as a standalone product, over the speed advantage of a themeable system.
+- Full control is genuinely warranted given the bar set in the UX Pattern Analysis (mechanism-backed trust badges, precise verbatim data displays, a literal custody-flow diagram, a timestamped step tracker, an italic-accent typographic device), these are bespoke component needs a generic system wouldn't ship out of the box regardless.
+- Trade-off accepted knowingly: higher initial build investment, and no "free" accessibility or interaction-behavior layer from an existing primitives library. This must be built or consciously sourced underneath the custom visual layer, not skipped, since Zephyroute's own NFRs (signature-window countdown, non-custodial trust communication) depend on correct, accessible interactive behavior, not just custom visuals.
+
+### Implementation Approach
+
+- Build the custom visual system on top of unstyled, accessible behavioral primitives (e.g. Radix UI or an equivalent headless primitives layer), so "custom" applies to the visual and branding layer, not to reinventing keyboard navigation, focus management, or ARIA semantics for every interactive component from zero.
+- Token-first construction: define Zephyroute's own design tokens (color, type scale, spacing, motion) before building components, so the standalone app and the embedded widget draw from one source of truth instead of diverging over time.
+- Priority build order follows the highest-stakes moments already identified rather than generic chrome first: the trust-badge component, the custody fund-flow diagram, the timestamped step tracker for the settlement and deposit wait, and the Soroban signature-window countdown, before nav, footer, and other lower-stakes UI.
+- Explicit scope boundary, not open-ended custom: only the components that carry Zephyroute's actual differentiation are genuinely bespoke from scratch (the trust-badge component, the custody fund-flow diagram, the timestamped step tracker, the Soroban signature-window countdown). Everything else (buttons, inputs, modals, nav, forms) is a thin visual skin over the accessible headless primitives from day one, not something to "custom-build eventually." Given the aggressive weeks-scale MVP timeline and small team, this boundary is what makes "custom design system" and the actual launch date compatible.
+
+### Customization Strategy
+
+- Container Fidelity (Core User Experience, Experience Principle #5) still applies inside a fully custom system: the token layer must let the embedded widget swap Zephyroute's own token values for a partner-appropriate theme (e.g. via scoped CSS custom properties at the widget's root) without forking components, so "custom design system" stays compatible with "feels native inside THORWallet."
+- The visual language explored in Visual Foundation (next major phase) inherits the trust-forward, dark, single-accent direction validated against XOXNO in UX Pattern Analysis, with Zephyroute's own specific palette and typography decided fresh there, not copied.
+- Token discipline as a hard gate, not a convention: no component ships with a hardcoded, non-token visual value (a raw color, a fixed border-radius, an off-token spacing value), enforced by lint rule or review checklist. This exists specifically because the Container Fidelity promise breaks silently the first time a value is hardcoded under time pressure, and by the time it surfaces (in a THORWallet demo, late), it's expensive to retrofit across every component already built.
